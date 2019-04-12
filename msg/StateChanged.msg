@@ -1,0 +1,4 @@
+Header header
+string current_state
+string old_state
+string triggered_event
