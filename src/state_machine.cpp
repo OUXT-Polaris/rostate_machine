@@ -1,19 +1,19 @@
 #include <rostate_machine/state_machine.h>
 
-state_machine::state_machine(std::string xml_filepath)
+StateMachine::StateMachine(std::string xml_filepath)
 {
     using namespace boost::property_tree;
     ptree pt;
     read_xml(xml_filepath, pt);
     std::string init_state_name;
-    for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
+    for (const ptree::value_type& state_itr : pt.get_child("StateMachine"))
     {
         if(state_itr.first == "init_state")
         {
             init_state_name = state_itr.second.get<std::string>("<xmlattr>.name");
         }
     }
-    for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
+    for (const ptree::value_type& state_itr : pt.get_child("StateMachine"))
     {
         if(state_itr.first == "transition")
         {
@@ -23,14 +23,14 @@ state_machine::state_machine(std::string xml_filepath)
             add_transition_(from_state_name, to_state_name, trigger_event_name);
         }
     }
-    set_current_state(init_state_name);
+    setCurrentState(init_state_name);
 }
 
-state_machine::~state_machine()
+StateMachine::~StateMachine()
 {
 }
 
-bool state_machine::set_current_state(std::string current_state)
+bool StateMachine::setCurrentState(std::string current_state)
 {
     std::lock_guard<std::mutex> lock(mtx_);
     auto vertex_range = boost::vertices(state_graph_);
@@ -46,7 +46,7 @@ bool state_machine::set_current_state(std::string current_state)
     return false;
 }
 
-void state_machine::add_transition_(std::string from_state_name, std::string to_state_name, std::string trigger_event_name)
+void StateMachine::add_transition_(std::string from_state_name, std::string to_state_name, std::string trigger_event_name)
 {
     std::lock_guard<std::mutex> lock(mtx_);
     vertex_t from_state;
@@ -118,7 +118,7 @@ void state_machine::add_transition_(std::string from_state_name, std::string to_
     return;
 }
 
-std::vector<std::string> state_machine::get_possibe_transition_states()
+std::vector<std::string> StateMachine::getPossibeTransitionStates()
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::vector<std::string> ret;
@@ -131,7 +131,7 @@ std::vector<std::string> state_machine::get_possibe_transition_states()
     return ret;
 }
 
-std::vector<std::string> state_machine::get_possibe_transitions()
+std::vector<std::string> StateMachine::getPossibeTransitions()
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::vector<std::string> ret;
@@ -144,7 +144,7 @@ std::vector<std::string> state_machine::get_possibe_transitions()
     return ret;
 }
 
-bool state_machine::try_transition(std::string trigger_event_name)
+bool StateMachine::tryTransition(std::string trigger_event_name)
 {
     std::lock_guard<std::mutex> lock(mtx_);
     out_edge_iterator_t ei;
@@ -169,7 +169,7 @@ bool state_machine::try_transition(std::string trigger_event_name)
     return false;
 }
 
-state_info_t state_machine::get_state_info()
+StateInfo StateMachine::getStateInfo()
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::string current_state = state_graph_[current_state_].name;
@@ -187,31 +187,31 @@ state_info_t state_machine::get_state_info()
     {
         possible_transition_states.push_back(state_graph_[*vi].name);
     }
-    state_info_t ret(current_state, possible_transition_states, possible_transitions);
+    StateInfo ret(current_state, possible_transition_states, possible_transitions);
     return ret;
 }
 
-std::string state_machine::get_current_state()
+std::string StateMachine::getCurrentState()
 {
     std::lock_guard<std::mutex> lock(mtx_);
     return state_graph_[current_state_].name;
 }
 
-std::string state_machine::get_dot_string()
+std::string StateMachine::getDotString()
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::string dot_string;
     std::ofstream sstream(dot_string);
-    boost::write_graphviz(sstream, state_graph_, boost::make_label_writer(get(&state_property::name, state_graph_)),
-        boost::make_label_writer(get(&transition_property::trigger_event, state_graph_)));
+    boost::write_graphviz(sstream, state_graph_, boost::make_label_writer(get(&StateProperty::name, state_graph_)),
+        boost::make_label_writer(get(&TransitionProperty::trigger_event, state_graph_)));
     return dot_string;
 }
 
-void state_machine::draw_state_machine(std::string dot_filename)
+void StateMachine::drawStateMachine(std::string dot_filename)
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::ofstream f(dot_filename.c_str());
-    boost::write_graphviz(f, state_graph_, boost::make_label_writer(get(&state_property::name, state_graph_)),
-        boost::make_label_writer(get(&transition_property::trigger_event, state_graph_)));
+    boost::write_graphviz(f, state_graph_, boost::make_label_writer(get(&StateProperty::name, state_graph_)),
+        boost::make_label_writer(get(&TransitionProperty::trigger_event, state_graph_)));
     return;
 }

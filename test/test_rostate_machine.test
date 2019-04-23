@@ -1,0 +1,3 @@
+<launch>
+  <test test-name="test-rostate_machine" pkg="rostate_machine" type="test-rostate_machine" name="test"/>
+</launch>

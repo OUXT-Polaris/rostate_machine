@@ -24,9 +24,9 @@ public:
     ~RostateMachine();
     void run();
 private:
-    void publish_current_state_();
-    void event_callback_(const ros::MessageEvent<rostate_machine::Event const>& event);
-    std::shared_ptr<state_machine> state_machine_ptr_;
+    void publishCurrentState();
+    void eventCallback(const ros::MessageEvent<rostate_machine::Event const>& event);
+    std::shared_ptr<StateMachine> state_machine_ptr_;
     ros::NodeHandle nh_;
     ros::Publisher current_state_pub_;
     ros::Publisher state_changed_pub_;

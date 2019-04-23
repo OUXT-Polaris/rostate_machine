@@ -41,6 +41,7 @@ add_library(state_machine src/state_machine.cpp)
 # ROS Wrapper for the State Machine
 add_library(rostate_machine src/rostate_machine.cpp)
 target_link_libraries(rostate_machine ${catkin_LIBRARIES})
+add_dependencies(rostate_machine rostate_machine_generate_messages_cpp)
 
 # Install header files
 install(DIRECTORY include/${PROJECT_NAME}/
@@ -54,15 +55,13 @@ install(TARGETS state_machine rostate_machine
   RUNTIME DESTINATION bin
 )
 
-#############
-## Testing ##
-#############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rostate_machine.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+if (CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(test-rostate_machine
+  test/test_rostate_machine.test
+  test/src/test_rostate_machine.cpp
+  ${NODE_STATUS_PUBLISHER_SRC})
+  target_link_libraries(test-rostate_machine
+  ${catkin_LIBRARIES}
+  state_machine)
+endif ()
