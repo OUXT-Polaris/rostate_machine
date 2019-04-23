@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    ros::init(argc, argv, "robotx_navigation_planner_node");
+    ros::init(argc, argv, "rostate_machine_node");
     ros::NodeHandle nh;
     ros::NodeHandle pnh("~");
     RostateMachine state_machine(nh,pnh);

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <group ns="example_state_machine">
+        <include file="$(find rostate_machine)/launch/rostate_machine.launch">
+            <arg name="xml_filepath" value="$(find rostate_machine)/data/example_state_machine.xml"/>
+            <arg name="state_machine_name" value="$(find rostate_machine)/data/example_state_machine"/>
+        </include>  
+    </group>
+</launch>

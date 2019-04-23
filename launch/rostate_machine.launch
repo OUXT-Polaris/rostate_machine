@@ -1,4 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-    
+    <arg name="xml_filepath"/>
+    <arg name="state_machine_name"/>
+
+    <node pkg="rostate_machine" type="rostate_machine_node" name="rostate_machine_node" output="screen" respawn="true">
+        <param name="xml_filepath" value="$(arg xml_filepath)"/>
+        <param name="state_machine_name" value="$(arg state_machine_name)"/>
+    </node>
+
+    <node pkg="rostate_machine" type="viewer.py" name="rostate_machine_viewer" output="log" respawn="false" respawn_delay="0">
+    </node>
 </launch>

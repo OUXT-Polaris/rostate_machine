@@ -1,0 +1,6 @@
+<state_machine>
+    <init_state name="remote_operated"/>
+
+    <transition from = "remote_operated" to="autonomous" name="system_bringup"/>
+    <transition from = "autonomous" to="remote_operated" name="manual_override"/>
+</state_machine>
