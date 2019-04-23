@@ -40,9 +40,9 @@ include_directories(
 add_library(state_machine src/state_machine.cpp)
 
 # ROS Wrapper for the State Machine
-add_library(rostate_machine src/rostate_machine.cpp)
-target_link_libraries(rostate_machine ${catkin_LIBRARIES})
-add_dependencies(rostate_machine rostate_machine_generate_messages_cpp)
+add_executable(rostate_machine_node src/rostate_machine_node.cpp src/rostate_machine.cpp)
+target_link_libraries(rostate_machine_node ${catkin_LIBRARIES} state_machine)
+add_dependencies(rostate_machine_node rostate_machine_generate_messages_cpp)
 
 # Install header files
 install(DIRECTORY include/${PROJECT_NAME}/
@@ -50,7 +50,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 )
 
 # Install library
-install(TARGETS state_machine rostate_machine
+install(TARGETS state_machine rostate_machine_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin

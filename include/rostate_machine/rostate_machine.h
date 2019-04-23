@@ -20,7 +20,7 @@
 class RostateMachine
 {
 public:
-    RostateMachine(std::string xml_filepath, std::string dot_filepath, std::string state_machine_name);
+    RostateMachine(ros::NodeHandle nh,ros::NodeHandle pnh);
     ~RostateMachine();
     void run();
 private:
@@ -28,10 +28,13 @@ private:
     void eventCallback(const ros::MessageEvent<rostate_machine::Event const>& event);
     std::shared_ptr<StateMachine> state_machine_ptr_;
     ros::NodeHandle nh_;
+    ros::NodeHandle pnh_;
     ros::Publisher current_state_pub_;
     ros::Publisher state_changed_pub_;
     ros::Subscriber trigger_event_sub_;
     std::string state_machine_name_;
+    std::string xml_filepath_;
+    std::string dot_filepath_;
     double publish_rate_;
 };
 
