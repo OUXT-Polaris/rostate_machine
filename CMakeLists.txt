@@ -26,7 +26,7 @@ generate_messages(
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rostate_machine state_machine
+  LIBRARIES event_client state_machine
 #  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
 )
@@ -44,13 +44,18 @@ add_executable(rostate_machine_node src/rostate_machine_node.cpp src/rostate_mac
 target_link_libraries(rostate_machine_node ${catkin_LIBRARIES} state_machine)
 add_dependencies(rostate_machine_node rostate_machine_generate_messages_cpp)
 
+# Event Client for State Machine
+add_library(event_client src/event_client.cpp)
+target_link_libraries(event_client ${catkin_LIBRARIES} state_machine)
+add_dependencies(event_client rostate_machine_generate_messages_cpp)
+
 # Install header files
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
 # Install library
-install(TARGETS state_machine rostate_machine_node
+install(TARGETS state_machine rostate_machine_node event_client
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
