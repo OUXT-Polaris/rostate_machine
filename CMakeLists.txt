@@ -56,14 +56,6 @@ install(TARGETS state_machine rostate_machine_node
   RUNTIME DESTINATION bin
 )
 
-# Python scripts
-set(PYTHON_SCRIPTS 
-  scripts/viewer.py)
-foreach(scripts ${PYTHON_SCRIPTS})
-  catkin_install_python(PROGRAMS ${scripts}
-    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-endforeach(scripts)
-
 if (CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   add_rostest_gtest(test-rostate_machine

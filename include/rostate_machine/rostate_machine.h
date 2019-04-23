@@ -1,7 +1,7 @@
 #ifndef ROSTATE_MACHINE_H_INCLUDED
 #define ROSTATE_MACHINE_H_INCLUDED
 
-//headers in robotx_packages
+//headers in this package
 #include "state_machine.h"
 #include <rostate_machine/State.h>
 #include <rostate_machine/StateChanged.h>
@@ -12,6 +12,7 @@
 
 //headers in ROS
 #include <ros/ros.h>
+#include <std_msgs/String.h>
 
 //headers in Boost
 #include <boost/thread.hpp>
@@ -29,6 +30,7 @@ private:
     std::shared_ptr<StateMachine> state_machine_ptr_;
     ros::NodeHandle nh_;
     ros::NodeHandle pnh_;
+    ros::Publisher dot_string_pub_;
     ros::Publisher current_state_pub_;
     ros::Publisher state_changed_pub_;
     ros::Subscriber trigger_event_sub_;

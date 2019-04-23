@@ -43,6 +43,7 @@ void RostateMachine::run()
     //state_machine_ptr_->drawStateMachine(dot_filepath_);
     state_machine_name_ = state_machine_name_;
     nh_.param<double>(ros::this_node::getName()+"/publish_rate", publish_rate_, 10);
+    dot_string_pub_ = nh_.advertise<std_msgs::String>(ros::this_node::getName()+"/"+state_machine_name_+"/dot_string",1);
     current_state_pub_ = nh_.advertise<rostate_machine::State>(ros::this_node::getName()+"/"+state_machine_name_+"/current_state",1);
     state_changed_pub_ = nh_.advertise<rostate_machine::StateChanged>(ros::this_node::getName()+"/"+state_machine_name_+"/state_changed",1);
 
@@ -56,6 +57,9 @@ void RostateMachine::publishCurrentState()
     ros::Rate rate(publish_rate_);
     while(ros::ok())
     {
+        std_msgs::String dot_string_msg;
+        dot_string_msg.data = state_machine_ptr_->getDotString();
+        dot_string_pub_.publish(dot_string_msg);
         rostate_machine::State state_msg;
         StateInfo info = state_machine_ptr_->getStateInfo();
         state_msg.current_state = info.current_state;
