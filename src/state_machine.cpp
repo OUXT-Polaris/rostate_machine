@@ -6,14 +6,14 @@ StateMachine::StateMachine(std::string xml_filepath)
     ptree pt;
     read_xml(xml_filepath, pt);
     std::string init_state_name;
-    for (const ptree::value_type& state_itr : pt.get_child("StateMachine"))
+    for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
     {
         if(state_itr.first == "init_state")
         {
             init_state_name = state_itr.second.get<std::string>("<xmlattr>.name");
         }
     }
-    for (const ptree::value_type& state_itr : pt.get_child("StateMachine"))
+    for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
     {
         if(state_itr.first == "transition")
         {

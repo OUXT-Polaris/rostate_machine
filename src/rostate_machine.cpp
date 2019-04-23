@@ -4,7 +4,7 @@
 RostateMachine::RostateMachine(std::string xml_filepath, std::string dot_filepath, std::string state_machine_name)
 {
     state_machine_ptr_ = std::make_shared<StateMachine>(xml_filepath);
-    state_machine_ptr_->drawStateMachine(dot_filepath);
+    //state_machine_ptr_->drawStateMachine(dot_filepath);
     state_machine_name_ = state_machine_name;
     nh_.param<double>(ros::this_node::getName()+"/publish_rate", publish_rate_, 10);
     current_state_pub_ = nh_.advertise<rostate_machine::State>(ros::this_node::getName()+"/"+state_machine_name+"/current_state",1);

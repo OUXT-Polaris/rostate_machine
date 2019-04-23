@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   message_generation
+  roslib
 )
 
 find_package(Boost REQUIRED COMPONENTS system)

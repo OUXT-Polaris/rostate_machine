@@ -4,11 +4,20 @@
 // Headers in Gtest
 #include <gtest/gtest.h>
 
-// Declare another test
+// Headers in ROS
+#include <ros/ros.h>
+#include <ros/package.h>
+
+// Declare Test
 TEST(TestSuite, testCase2)
 {
-    
-    EXPECT_EQ(true,true);
+    std::string xml_filepath = ros::package::getPath("rostate_machine") + std::string("/test/data/test_state_machine.xml");
+    StateMachine sm(xml_filepath);
+    EXPECT_EQ(sm.getCurrentState(),"remote_operated");
+    EXPECT_EQ(sm.tryTransition("test"),false);
+    EXPECT_EQ(sm.getCurrentState(),"remote_operated");
+    EXPECT_EQ(sm.tryTransition("system_bringup"),true);
+    EXPECT_EQ(sm.getCurrentState(),"autonomous");
 }
 
 // Run all the tests that were declared with TEST()
