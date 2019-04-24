@@ -2,15 +2,13 @@
 #define ROSTATE_MACHINE_EVENT_CLIENT_H_INCLUDED
 
 // Headers in this package
+#include <rostate_machine/callback_func.h>
 #include <rostate_machine/State.h>
 #include <rostate_machine/StateChanged.h>
 #include <rostate_machine/Event.h>
 
 // Headers in ROS
 #include <ros/ros.h>
-
-// Headers in STL
-#include <functional>
 
 // Headers in Boost
 #include <boost/circular_buffer.hpp>

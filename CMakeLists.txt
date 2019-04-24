@@ -50,7 +50,10 @@ target_link_libraries(event_client ${catkin_LIBRARIES} state_machine)
 add_dependencies(event_client rostate_machine_generate_messages_cpp)
 
 # Example node for Event Client
-add_executable(example_event_client_node src/example_event_client_node.cpp src/example_event_client.cpp)
+add_executable(example_event_client_node
+  src/callback_func.cpp
+  src/example_event_client_node.cpp 
+  src/example_event_client.cpp)
 target_link_libraries(example_event_client_node ${catkin_LIBRARIES} event_client)
 add_dependencies(example_event_client_node rostate_machine_generate_messages_cpp)
 
