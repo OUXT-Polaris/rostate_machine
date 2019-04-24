@@ -20,8 +20,22 @@
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 
+// Headers in STL
+#include <vector>
+#include <map>
+
 namespace rostate_machine
 {
+    constexpr int always = 0;
+    constexpr int on_entry = 1;
+    constexpr int on_exit = 2;
+
+    struct StateInfo
+    {
+        std::string name;
+        std::map<std::string,int> tag;
+    };
+
     class EventClient
     {
     public:
@@ -38,6 +52,9 @@ namespace rostate_machine
         std::string xml_filepath_;
         void loadXml();
         void onTransition();
+        std::vector<CallbackFunc> callbacks_;
+        std::map<std::string,StateInfo> state_info_;
+        std::vector<std::string> split(const std::string &s, char delim);
     };
 }
 

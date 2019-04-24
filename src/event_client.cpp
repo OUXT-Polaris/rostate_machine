@@ -39,18 +39,11 @@ namespace rostate_machine
         xml_parser::read_xml(xml_filepath_, pt);
         for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
         {
-            if(state_itr.first == "state")
+            if(state_itr.first == "callback")
             {
-                for (const ptree::value_type& itr : state_itr.second.get_child("callback"))
-                {
-
-                }
-                /*
-                std::string state_name = state_itr.second.get<std::string>("<xmlattr>.name");
-                std::string from_state_name = state_itr.second.get<std::string>("<xmlattr>.from");
-                std::string to_state_name = state_itr.second.get<std::string>("<xmlattr>.to");
-                std::string trigger_event_name = state_itr.second.get<std::string>("<xmlattr>.name");
-                */
+                std::string tag = state_itr.second.get<std::string>("<xmlattr>.tag");
+                std::string when = state_itr.second.get<std::string>("<xmlattr>.when");
+                std::vector<std::string> states = split(state_itr.second.get<std::string>("<xmlattr>.states"),',');
             }
         }
         return;
@@ -59,5 +52,21 @@ namespace rostate_machine
     void EventClient::onTransition()
     {
         return;
+    }
+
+
+    std::vector<std::string> EventClient::split(const std::string &s, char delim)
+    {
+        std::vector<std::string> elems;
+        std::stringstream ss(s);
+        std::string item;
+        while (getline(ss, item, delim))
+        {
+        if (!item.empty())
+        {
+                elems.push_back(item);
+            }
+        }
+        return elems;
     }
 }
