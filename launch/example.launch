@@ -6,6 +6,6 @@
     </include>
 
     <node pkg="rostate_machine" type="example_event_client_node" name="example_event_client_node" output="log" respawn="false" respawn_delay="0">
-        <param name="target_state_machine_namespace" value="/rostate_machine_node/example_state_machine"/>
+        <param name="target_state_machine_namespace" value="/rostate_machine_node"/>
     </node>
 </launch>

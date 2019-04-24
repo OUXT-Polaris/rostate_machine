@@ -39,6 +39,7 @@ namespace rostate_machine
         std::string target_state_machine_namespace_;
         std::string xml_filepath_;
         void loadXml();
+        void onTransition();
     };
 }
 

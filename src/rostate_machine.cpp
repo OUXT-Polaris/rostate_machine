@@ -43,12 +43,12 @@ void RostateMachine::run()
     //state_machine_ptr_->drawStateMachine(dot_filepath_);
     state_machine_name_ = state_machine_name_;
     nh_.param<double>(ros::this_node::getName()+"/publish_rate", publish_rate_, 10);
-    dot_string_pub_ = nh_.advertise<std_msgs::String>(ros::this_node::getName()+"/"+state_machine_name_+"/dot_string",1);
-    current_state_pub_ = nh_.advertise<rostate_machine::State>(ros::this_node::getName()+"/"+state_machine_name_+"/current_state",1);
-    state_changed_pub_ = nh_.advertise<rostate_machine::StateChanged>(ros::this_node::getName()+"/"+state_machine_name_+"/state_changed",1);
+    dot_string_pub_ = nh_.advertise<std_msgs::String>(ros::this_node::getName()+"/dot_string",1);
+    current_state_pub_ = nh_.advertise<rostate_machine::State>(ros::this_node::getName()+"/current_state",1);
+    state_changed_pub_ = nh_.advertise<rostate_machine::StateChanged>(ros::this_node::getName()+"/state_changed",1);
 
     boost::thread publish_thread(boost::bind(&RostateMachine::publishCurrentState, this));
-    trigger_event_sub_ = nh_.subscribe(ros::this_node::getName()+"/"+state_machine_name_+"/trigger_event", 10, &RostateMachine::eventCallback,this);
+    trigger_event_sub_ = nh_.subscribe(ros::this_node::getName()+"/trigger_event", 10, &RostateMachine::eventCallback,this);
     return;
 }
 
