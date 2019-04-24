@@ -9,6 +9,8 @@ namespace rostate_machine
         state_buf_ = boost::circular_buffer<rostate_machine::State>(2);
         pnh_.param<std::string>("target_state_machine_namespace", target_state_machine_namespace_, "");
         pnh_.param<std::string>(target_state_machine_namespace_+"/xml_filepath", xml_filepath_, "");
+        trigger_event_pub_ = nh_.advertise<rostate_machine::Event>(target_state_machine_namespace_+"/trigger_event",1);
+        current_state_sub_ = nh_.subscribe(target_state_machine_namespace_+"/current_state",1,&EventClient::stateCallback,this);
     }
 
     EventClient::~EventClient()
@@ -20,5 +22,10 @@ namespace rostate_machine
     {
         state_buf_.push_back(*msg);
         return;
+    }
+
+    void EventClient::loadXml()
+    {
+
     }
 }

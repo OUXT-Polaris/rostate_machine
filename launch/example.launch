@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <launch>
-    <group ns="example_state_machine">
-        <include file="$(find rostate_machine)/launch/rostate_machine.launch">
-            <arg name="xml_filepath" value="$(find rostate_machine)/data/example_state_machine.xml"/>
-            <arg name="state_machine_name" value="$(find rostate_machine)/data/example_state_machine"/>
-        </include>  
-    </group>
+    <include file="$(find rostate_machine)/launch/rostate_machine.launch">
+        <arg name="xml_filepath" value="$(find rostate_machine)/data/example_state_machine.xml"/>
+        <arg name="state_machine_name" value="example_state_machine"/>
+    </include>
+
+    <node pkg="rostate_machine" type="example_event_client_node" name="example_event_client_node" output="log" respawn="false" respawn_delay="0">
+        <param name="target_state_machine_namespace" value="/rostate_machine_node/example_state_machine"/>
+    </node>
 </launch>

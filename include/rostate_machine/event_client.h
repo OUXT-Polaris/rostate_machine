@@ -32,11 +32,13 @@ namespace rostate_machine
     private:
         ros::NodeHandle nh_;
         ros::NodeHandle pnh_;
+        ros::Publisher trigger_event_pub_;
         ros::Subscriber current_state_sub_;
         void stateCallback(const rostate_machine::State::ConstPtr msg);
         boost::circular_buffer<rostate_machine::State> state_buf_;
         std::string target_state_machine_namespace_;
         std::string xml_filepath_;
+        void loadXml();
     };
 }
 
