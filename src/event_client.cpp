@@ -7,6 +7,8 @@ namespace rostate_machine
         nh_ = nh;
         pnh_ = pnh;
         state_buf_ = boost::circular_buffer<rostate_machine::State>(2);
+        pnh_.param<std::string>("target_state_machine_namespace", target_state_machine_namespace_, "");
+        pnh_.param<std::string>(target_state_machine_namespace_+"/xml_filepath", xml_filepath_, "");
     }
 
     EventClient::~EventClient()

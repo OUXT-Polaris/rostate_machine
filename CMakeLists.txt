@@ -49,13 +49,18 @@ add_library(event_client src/event_client.cpp)
 target_link_libraries(event_client ${catkin_LIBRARIES} state_machine)
 add_dependencies(event_client rostate_machine_generate_messages_cpp)
 
+# Example node for Event Client
+add_executable(example_event_client_node src/example_event_client_node.cpp src/example_event_client.cpp)
+target_link_libraries(example_event_client_node ${catkin_LIBRARIES} event_client)
+add_dependencies(example_event_client_node rostate_machine_generate_messages_cpp)
+
 # Install header files
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
 # Install library
-install(TARGETS state_machine rostate_machine_node event_client
+install(TARGETS state_machine rostate_machine_node event_client example_event_client_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin

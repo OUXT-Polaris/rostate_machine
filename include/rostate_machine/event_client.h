@@ -15,12 +15,15 @@
 // Headers in Boost
 #include <boost/circular_buffer.hpp>
 #include <boost/optional.hpp>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/graph_utility.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace rostate_machine
 {
-    template <typename T>
-    boost::optional<rostate_machine::Event> eventCallbackFunc(T);
-
     class EventClient
     {
     public:
@@ -32,6 +35,8 @@ namespace rostate_machine
         ros::Subscriber current_state_sub_;
         void stateCallback(const rostate_machine::State::ConstPtr msg);
         boost::circular_buffer<rostate_machine::State> state_buf_;
+        std::string target_state_machine_namespace_;
+        std::string xml_filepath_;
     };
 }
 

@@ -1,6 +1,11 @@
 <state_machine>
     <init_state name="remote_operated"/>
 
+    <state name="autonomous">
+        <callback tag="become_autonomos" when="on_entry"/>
+        <callback tag="stop_motor" when="on_exit"/>
+    </state>
+
     <transition from = "remote_operated" to="autonomous" name="system_bringup"/>
     <transition from = "autonomous" to="remote_operated" name="manual_override"/>
 </state_machine>
