@@ -34,8 +34,25 @@ namespace rostate_machine
 
     void EventClient::loadXml()
     {
-        boost::property_tree::ptree pt;
-        boost::property_tree::xml_parser::read_xml(xml_filepath_, pt);
+        using namespace boost::property_tree;
+        ptree pt;
+        xml_parser::read_xml(xml_filepath_, pt);
+        for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
+        {
+            if(state_itr.first == "state")
+            {
+                for (const ptree::value_type& itr : state_itr.second.get_child("callback"))
+                {
+
+                }
+                /*
+                std::string state_name = state_itr.second.get<std::string>("<xmlattr>.name");
+                std::string from_state_name = state_itr.second.get<std::string>("<xmlattr>.from");
+                std::string to_state_name = state_itr.second.get<std::string>("<xmlattr>.to");
+                std::string trigger_event_name = state_itr.second.get<std::string>("<xmlattr>.name");
+                */
+            }
+        }
         return;
     }
 
