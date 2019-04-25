@@ -32,7 +32,6 @@ private:
     ros::NodeHandle pnh_;
     ros::Publisher dot_string_pub_;
     ros::Publisher current_state_pub_;
-    ros::Publisher state_changed_pub_;
     ros::Subscriber trigger_event_sub_;
     std::string state_machine_name_;
     std::string xml_filepath_;

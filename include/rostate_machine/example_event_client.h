@@ -7,12 +7,16 @@
 // Headers in ROS
 #include <ros/ros.h>
 
+// Headers in Boost
+#include <boost/optional.hpp>
+
 class ExampleEventClient
 {
 public:
     ExampleEventClient(ros::NodeHandle nh,ros::NodeHandle pnh);
     ~ExampleEventClient();
 private:
+    boost::optional<rostate_machine::Event> checkMotor();
     ros::NodeHandle nh_;
     ros::NodeHandle pnh_;
     rostate_machine::EventClient client_;

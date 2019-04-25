@@ -5,10 +5,19 @@ ExampleEventClient::ExampleEventClient(ros::NodeHandle nh,ros::NodeHandle pnh) :
 {
     nh_ = nh;
     pnh_ = pnh;
+    client_.registerCallback(std::bind(&ExampleEventClient::checkMotor, this),"check_motor");
     client_.run();
 }
 
 ExampleEventClient::~ExampleEventClient()
 {
 
+}
+
+boost::optional<rostate_machine::Event> ExampleEventClient::checkMotor()
+{
+    rostate_machine::Event ret;
+    ret.header.stamp = ros::Time::now();
+    ret.trigger_event_name = "motor_disconnected";
+    return ret;
 }

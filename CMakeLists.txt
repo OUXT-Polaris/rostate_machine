@@ -16,7 +16,6 @@ add_message_files(
   FILES
   Event.msg
   State.msg
-  StateChanged.msg
 )
 
 generate_messages(
