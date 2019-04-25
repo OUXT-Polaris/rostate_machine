@@ -3,7 +3,6 @@
 
 // Headers in this package
 #include <rostate_machine/State.h>
-#include <rostate_machine/StateChanged.h>
 #include <rostate_machine/Event.h>
 
 // Headers in ROS
