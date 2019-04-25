@@ -27,7 +27,7 @@ namespace rostate_machine
     {
         state_buf_.push_back(*msg);
         std::vector<std::string> active_tags;
-        if(state_buf_.size() == 0)
+        if(state_buf_.size() == 1)
         {
             for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
             {
@@ -40,7 +40,7 @@ namespace rostate_machine
                 }
             }
         }
-        else
+        if(state_buf_.size() == 2)
         {
             for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
             {

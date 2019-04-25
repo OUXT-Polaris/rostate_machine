@@ -28,6 +28,8 @@ void RostateMachine::eventCallback(const ros::MessageEvent<rostate_machine::Even
     }
     else
     {
+        std::string publisher_name = event.getPublisherName();
+        ROS_INFO_STREAM( "from : " << publisher_name << ", succeed to transition, current state : "<< info.current_state << ", event_name : " << msg.trigger_event_name);
     }
     return;
 }

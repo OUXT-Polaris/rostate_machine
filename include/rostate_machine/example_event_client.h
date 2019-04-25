@@ -17,6 +17,7 @@ public:
     ~ExampleEventClient();
 private:
     boost::optional<rostate_machine::Event> checkMotor();
+    boost::optional<rostate_machine::Event> stopMotor();
     ros::NodeHandle nh_;
     ros::NodeHandle pnh_;
     rostate_machine::EventClient client_;

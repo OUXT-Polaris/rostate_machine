@@ -2,7 +2,7 @@
     <init_state name="remote_operated"/>
 
     <callback tag="become_autonomos" when="on_entry" states="autonomous"/>
-    <callback tag="stop_motor" when="on_exit" states="autonomous"/>
+    <callback tag="stop_motor" when="on_exit" states="autonomous,remote_operated"/>
     <callback tag="check_motor" when="always" states="autonomous,remote_operated"/>
 
     <transition from = "remote_operated" to="autonomous" name="system_bringup"/>
