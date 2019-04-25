@@ -26,7 +26,7 @@ namespace rostate_machine
     void EventClient::stateCallback(const rostate_machine::State::ConstPtr msg)
     {
         state_buf_.push_back(*msg);
-        std::vector<std::string> active_tags_;
+        std::vector<std::string> active_tags;
         if(state_buf_.size() == 0)
         {
             for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
@@ -35,7 +35,7 @@ namespace rostate_machine
                 {
                     if(tag_itr->when == always && *state_itr == state_buf_[0].current_state)
                     {
-                        active_tags_.push_back(tag_itr->tag);
+                        active_tags.push_back(tag_itr->tag);
                     }
                 }
             }
@@ -48,7 +48,7 @@ namespace rostate_machine
                 {
                     if(tag_itr->when == always && *state_itr == state_buf_[1].current_state)
                     {
-                        active_tags_.push_back(tag_itr->tag);
+                        active_tags.push_back(tag_itr->tag);
                     }
                 }
             }
@@ -60,13 +60,26 @@ namespace rostate_machine
                     {
                         if(tag_itr->when == on_entry && *state_itr == state_buf_[1].current_state)
                         {
-                            active_tags_.push_back(tag_itr->tag);
+                            active_tags.push_back(tag_itr->tag);
                         }
                         if(tag_itr->when == on_exit && *state_itr == state_buf_[0].current_state)
                         {
-                            active_tags_.push_back(tag_itr->tag);
+                            active_tags.push_back(tag_itr->tag);
                         }
                     }
+                }
+            }
+        }
+        for(auto tag_itr = active_tags.begin(); tag_itr != active_tags.end(); tag_itr++)
+        {
+            std::vector<std::function<boost::optional<rostate_machine::Event>(void)> > execute_funcs = tagged_functions_[*tag_itr];
+            for(auto func_itr = execute_funcs.begin(); func_itr != execute_funcs.end(); func_itr++)
+            {
+                std::function<boost::optional<rostate_machine::Event>(void)> func = *func_itr;
+                boost::optional<rostate_machine::Event> ret = func();
+                if(ret)
+                {
+                    trigger_event_pub_.publish(*ret);
                 }
             }
         }
