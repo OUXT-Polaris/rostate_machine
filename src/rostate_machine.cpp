@@ -6,7 +6,7 @@ RostateMachine::RostateMachine(ros::NodeHandle nh,ros::NodeHandle pnh)
     nh_ = nh;
     pnh_ = pnh;
     pnh_.param<std::string>("state_machine_name", state_machine_name_, "");
-    //pnh_.param<std::string>("dot_filepath", dot_filepath_, "");
+    pnh_.param<std::string>("dot_filepath", dot_filepath_, "");
     pnh_.param<std::string>("xml_filepath", xml_filepath_, "");
 }
 
@@ -37,7 +37,7 @@ void RostateMachine::eventCallback(const ros::MessageEvent<rostate_machine::Even
 void RostateMachine::run()
 {
     state_machine_ptr_ = std::make_shared<StateMachine>(xml_filepath_);
-    //state_machine_ptr_->drawStateMachine(dot_filepath_);
+    state_machine_ptr_->drawStateMachine(dot_filepath_);
     state_machine_name_ = state_machine_name_;
     nh_.param<double>(ros::this_node::getName()+"/publish_rate", publish_rate_, 10);
     dot_string_pub_ = nh_.advertise<std_msgs::String>(ros::this_node::getName()+"/dot_string",1);

@@ -61,7 +61,7 @@ public:
     void drawStateMachine(std::string dot_filename);
     std::string getDotString();
 private:
-    void add_transition_(std::string from_state_name, std::string to_state_name, std::string trigger_event_name);
+    void addTransition(std::string from_state_name, std::string to_state_name, std::string trigger_event_name);
     std::mutex mtx_;
     graph_t state_graph_;
     vertex_t current_state_;

@@ -20,7 +20,7 @@ StateMachine::StateMachine(std::string xml_filepath)
             std::string from_state_name = state_itr.second.get<std::string>("<xmlattr>.from");
             std::string to_state_name = state_itr.second.get<std::string>("<xmlattr>.to");
             std::string trigger_event_name = state_itr.second.get<std::string>("<xmlattr>.name");
-            add_transition_(from_state_name, to_state_name, trigger_event_name);
+            addTransition(from_state_name, to_state_name, trigger_event_name);
         }
     }
     setCurrentState(init_state_name);
@@ -46,7 +46,7 @@ bool StateMachine::setCurrentState(std::string current_state)
     return false;
 }
 
-void StateMachine::add_transition_(std::string from_state_name, std::string to_state_name, std::string trigger_event_name)
+void StateMachine::addTransition(std::string from_state_name, std::string to_state_name, std::string trigger_event_name)
 {
     std::lock_guard<std::mutex> lock(mtx_);
     vertex_t from_state;
