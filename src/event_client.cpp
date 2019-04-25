@@ -26,11 +26,48 @@ namespace rostate_machine
     void EventClient::stateCallback(const rostate_machine::State::ConstPtr msg)
     {
         state_buf_.push_back(*msg);
-        if(state_buf_.size() == 2)
+        std::vector<std::string> active_tags_;
+        if(state_buf_.size() == 0)
         {
+            for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
+            {
+                for(auto state_itr = tag_itr->states.begin(); state_itr != tag_itr->states.end(); state_itr++)
+                {
+                    if(tag_itr->when == always && *state_itr == state_buf_[0].current_state)
+                    {
+                        active_tags_.push_back(tag_itr->tag);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
+            {
+                for(auto state_itr = tag_itr->states.begin(); state_itr != tag_itr->states.end(); state_itr++)
+                {
+                    if(tag_itr->when == always && *state_itr == state_buf_[1].current_state)
+                    {
+                        active_tags_.push_back(tag_itr->tag);
+                    }
+                }
+            }
             if(state_buf_[0].current_state != state_buf_[1].current_state)
             {
-                onTransition();
+                for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
+                {
+                    for(auto state_itr = tag_itr->states.begin(); state_itr != tag_itr->states.end(); state_itr++)
+                    {
+                        if(tag_itr->when == on_entry && *state_itr == state_buf_[1].current_state)
+                        {
+                            active_tags_.push_back(tag_itr->tag);
+                        }
+                        if(tag_itr->when == on_exit && *state_itr == state_buf_[0].current_state)
+                        {
+                            active_tags_.push_back(tag_itr->tag);
+                        }
+                    }
+                }
             }
         }
         return;
@@ -51,22 +88,25 @@ namespace rostate_machine
                 bool is_matched = false;
                 if(when == "always")
                 {
-                    CallbackInfo info = CallbackInfo(tag,always,states);
+                    TagInfo info = TagInfo(tag,always,states);
+                    tag_info_.push_back(info);
                     is_matched = true;
                 }
                 if(when == "on_entry")
                 {
-                    CallbackInfo info = CallbackInfo(tag,on_entry,states);
+                    TagInfo info = TagInfo(tag,on_entry,states);
+                    tag_info_.push_back(info);
                     is_matched = true;
                 }
                 if(when == "on_exit")
                 {
-                    CallbackInfo info = CallbackInfo(tag,on_exit,states);
+                    TagInfo info = TagInfo(tag,on_exit,states);
+                    tag_info_.push_back(info);
                     is_matched = true;
                 }
                 if(is_matched == false)
                 {
-                    ROS_WARN_STREAM("unspoorted when attribute.");
+                    ROS_WARN_STREAM("unspoorted when attribute!");
                 }
             }
         }
@@ -75,7 +115,7 @@ namespace rostate_machine
 
     void EventClient::registerCallback(std::function<boost::optional<rostate_machine::Event>(void)> func,std::string tag)
     {
-        function_lists_[tag].push_back(func);
+        tagged_functions_[tag].push_back(func);
         return;
     }
 
@@ -93,8 +133,8 @@ namespace rostate_machine
         std::string item;
         while (getline(ss, item, delim))
         {
-        if (!item.empty())
-        {
+            if (!item.empty())
+            {
                 elems.push_back(item);
             }
         }

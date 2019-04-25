@@ -2,7 +2,6 @@
 #define ROSTATE_MACHINE_EVENT_CLIENT_H_INCLUDED
 
 // Headers in this package
-#include <rostate_machine/callback_func.h>
 #include <rostate_machine/State.h>
 #include <rostate_machine/StateChanged.h>
 #include <rostate_machine/Event.h>
@@ -26,6 +25,19 @@
 
 namespace rostate_machine
 {
+    constexpr int always = 0;
+    constexpr int on_entry = 1;
+    constexpr int on_exit = 2;
+
+    struct TagInfo
+    {
+        const std::string tag;
+        const int when;
+        const std::vector<std::string> states;
+        TagInfo(std::string tag,int when,std::vector<std::string> states) 
+            : tag(tag),when(when),states(states) {}
+    };
+
     class EventClient
     {
     public:
@@ -44,9 +56,9 @@ namespace rostate_machine
         std::string xml_filepath_;
         void loadXml();
         std::vector<std::string> onTransition();
-        std::vector<CallbackFunc> callbacks_;
-        std::map<std::string, std::vector<std::function<boost::optional<rostate_machine::Event>(void)> > > function_lists_;
         std::vector<std::string> split(const std::string &s, char delim);
+        std::map<std::string, std::vector<std::function<boost::optional<rostate_machine::Event>(void)> > > tagged_functions_;
+        std::vector<TagInfo> tag_info_;
     };
 }
 
