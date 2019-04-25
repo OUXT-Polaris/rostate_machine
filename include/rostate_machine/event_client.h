@@ -26,21 +26,13 @@
 
 namespace rostate_machine
 {
-    constexpr int always = 0;
-    constexpr int on_entry = 1;
-    constexpr int on_exit = 2;
-
-    struct StateInfo
-    {
-        std::string name;
-        std::map<std::string,int> tag;
-    };
-
     class EventClient
     {
     public:
         EventClient(ros::NodeHandle nh,ros::NodeHandle pnh);
         ~EventClient();
+        void registerCallback(std::function<boost::optional<rostate_machine::Event>(void)> func,std::string tag);
+        void run();
     private:
         ros::NodeHandle nh_;
         ros::NodeHandle pnh_;
@@ -51,9 +43,9 @@ namespace rostate_machine
         std::string target_state_machine_namespace_;
         std::string xml_filepath_;
         void loadXml();
-        void onTransition();
+        std::vector<std::string> onTransition();
         std::vector<CallbackFunc> callbacks_;
-        std::map<std::string,StateInfo> state_info_;
+        std::map<std::string, std::vector<std::function<boost::optional<rostate_machine::Event>(void)> > > function_lists_;
         std::vector<std::string> split(const std::string &s, char delim);
     };
 }

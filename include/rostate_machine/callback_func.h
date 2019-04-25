@@ -6,23 +6,37 @@
 #include <vector>
 
 // Headers in Boost
+#include <boost/circular_buffer.hpp>
 #include <boost/optional.hpp>
 
 // Headers in this package
 #include <rostate_machine/Event.h>
+#include <rostate_machine/State.h>
 
 namespace rostate_machine
 {
+    constexpr int always = 0;
+    constexpr int on_entry = 1;
+    constexpr int on_exit = 2;
+
+    struct CallbackInfo
+    {
+        const std::string tag;
+        const int when;
+        const std::vector<std::string> states;
+        CallbackInfo(std::string tag,int when,std::vector<std::string> states) 
+            : tag(tag),when(when),states(states) {}
+    };
+
     class CallbackFunc
     {
     public:
-        CallbackFunc(std::function<boost::optional<rostate_machine::Event>(void)> func);
+        CallbackFunc();
         ~CallbackFunc();
-        void addTag(std::string tag);
-        boost::optional<rostate_machine::Event> callback(std::string tag);
+        void callback(boost::circular_buffer<rostate_machine::State> state_buf);
     private:
-        std::function<boost::optional<rostate_machine::Event>(void)> func_;
-        std::vector<std::string> tag_;
+        std::vector<std::function<boost::optional<rostate_machine::Event>(void)> > funcs_;
+        std::vector<CallbackInfo> callback_info_;
     };
 }
 

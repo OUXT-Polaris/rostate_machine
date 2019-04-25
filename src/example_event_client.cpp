@@ -5,6 +5,7 @@ ExampleEventClient::ExampleEventClient(ros::NodeHandle nh,ros::NodeHandle pnh) :
 {
     nh_ = nh;
     pnh_ = pnh;
+    client_.run();
 }
 
 ExampleEventClient::~ExampleEventClient()
