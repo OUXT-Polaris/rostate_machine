@@ -4,7 +4,6 @@
 //headers in this package
 #include "state_machine.h"
 #include <rostate_machine/State.h>
-#include <rostate_machine/StateChanged.h>
 #include <rostate_machine/Event.h>
 
 //headers in STL
