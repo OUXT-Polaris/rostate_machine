@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>rostate_machine</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>The rostate_machine package</description>
 
   <maintainer email="ms.kataoka@gmail.com">masaya kataoka</maintainer>
