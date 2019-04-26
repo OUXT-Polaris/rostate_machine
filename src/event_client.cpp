@@ -1,3 +1,14 @@
+/**
+ * @file event_client.cpp
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief Event Client for Rostate Machine
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) OUXT Polaris 2019
+ * 
+ */
+
 #include <rostate_machine/event_client.h>
 
 namespace rostate_machine

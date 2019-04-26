@@ -1,6 +1,17 @@
 #ifndef ROSTATE_MACHINE_H_INCLUDED
 #define ROSTATE_MACHINE_H_INCLUDED
 
+/**
+ * @file rostate_machine.h
+ * @author masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief ROS Wrapper for the State Machine Class
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) OUXT Polaris 2019
+ * 
+ */
+
 //headers in this package
 #include "state_machine.h"
 #include <rostate_machine/State.h>
@@ -17,6 +28,10 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
+/**
+ * @brief ROS wrapper of the State Machine Class
+ * @sa StateMachine
+ */
 class RostateMachine
 {
 public:

@@ -1,3 +1,14 @@
+/**
+ * @file test_rostate_machine
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief Test code for rostate_machine package
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) OUXT Polaris 2019
+ * 
+ */
+
 // Headers in this package
 #include <rostate_machine/state_machine.h>
 

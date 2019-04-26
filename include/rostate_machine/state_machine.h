@@ -94,6 +94,10 @@ struct StateInfo
             }
 };
 
+/**
+ * @brief State Machine Class using Boost::Graph
+ * 
+ */
 class StateMachine
 {
 public:

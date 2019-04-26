@@ -1,6 +1,17 @@
 #ifndef ROSTATE_MACHINE_EVENT_CLIENT_H_INCLUDED
 #define ROSTATE_MACHINE_EVENT_CLIENT_H_INCLUDED
 
+/**
+ * @file event_client.h
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief Event Client for Rostate Machine
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) OUXT Polaris 2019
+ * 
+ */
+
 // Headers in this package
 #include <rostate_machine/State.h>
 #include <rostate_machine/Event.h>
