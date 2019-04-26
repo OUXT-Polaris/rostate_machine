@@ -1,0 +1,4 @@
+- builder: doxygen          # specify document generator. e.g) doxygen, epidoc, sphinx
+  sphinx_root_dir: doc      # document directory
+  file_patterns: '*.cpp *.h *.dox *.md'
+  use_mdfile_as_mainpage: README.md

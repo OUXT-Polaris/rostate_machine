@@ -28,8 +28,8 @@
   <exec_depend>message_runtime</exec_depend>
   <exec_depend>rostest</exec_depend>
   <exec_depend>roslib</exec_depend>
-  <exec_depend>python-flask</exec_depend>
 
   <export>
+    <rosdoc config="rosdoc.yaml"/>
   </export>
 </package>
