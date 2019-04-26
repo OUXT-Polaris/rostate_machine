@@ -1,3 +1,14 @@
+/**
+ * @file rostate_machine_node.cpp
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief state_machine node for ROS
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c)  OUXT Polaris 2019
+ * 
+ */
+
 // headers for ros
 #include <ros/ros.h>
 

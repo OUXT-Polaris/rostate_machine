@@ -1,3 +1,14 @@
+/**
+ * @file example_event_client_node.cpp
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief Example node for using event_client
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c)  OUXT Polaris 2019
+ * 
+ */
+
 // Headers for ros
 #include <ros/ros.h>
 

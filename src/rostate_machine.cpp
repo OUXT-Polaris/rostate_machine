@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-04-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright (c)  OUXT Polaris 2019
  * 
  */
 

@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-04-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright (c)  OUXT Polaris 2019
  * 
  */
 
@@ -220,6 +220,11 @@ bool StateMachine::tryTransition(std::string trigger_event_name)
     return false;
 }
 
+/**
+ * @brief Function getting current state info
+ * 
+ * @return StateInfo current state info
+ */
 StateInfo StateMachine::getStateInfo()
 {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -242,12 +247,22 @@ StateInfo StateMachine::getStateInfo()
     return ret;
 }
 
+/**
+ * @brief Function getting current state name
+ * 
+ * @return std::string current state name
+ */
 std::string StateMachine::getCurrentState()
 {
     std::lock_guard<std::mutex> lock(mtx_);
     return state_graph_[current_state_].name;
 }
 
+/**
+ * @brief Function getting dot string which describe state machine in std::string format
+ * 
+ * @return std::string dot string which describe state machine in std::string format
+ */
 std::string StateMachine::getDotString()
 {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -258,6 +273,11 @@ std::string StateMachine::getDotString()
     return dot_string;
 }
 
+/**
+ * @brief Function saving state machine in .dot format
+ * 
+ * @param dot_filename filename of the .dot file (saved in rostate_machine/data/<dot_filename>.dot)
+ */
 void StateMachine::drawStateMachine(std::string dot_filename)
 {
     std::lock_guard<std::mutex> lock(mtx_);

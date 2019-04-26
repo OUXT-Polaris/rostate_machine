@@ -1,3 +1,14 @@
+/**
+ * @file example_event_client.cpp
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief example implementation using EventClient
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) 2019 OUXT Polaris
+ * 
+ */
+
 // Headers in this package
 #include <rostate_machine/example_event_client.h>
 
