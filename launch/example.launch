@@ -2,6 +2,7 @@
 <launch>
     <include file="$(find rostate_machine)/launch/rostate_machine.launch">
         <arg name="xml_filepath" value="$(find rostate_machine)/data/example_state_machine.xml"/>
+        <arg name="dot_filepath" value="$(find rostate_machine)/data/example_state_machine.dot"/>
         <arg name="state_machine_name" value="example_state_machine"/>
     </include>
 
