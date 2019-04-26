@@ -1,6 +1,17 @@
 #ifndef StateMachine_H_INCLUDED
 #define StateMachine_H_INCLUDED
 
+/**
+ * @file state_machine.h
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief State Machine Library using Boost::Graph
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 //headers in boost
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_utility.hpp>
@@ -13,6 +24,10 @@
 //headers in STL
 #include <mutex>
 
+/**
+ * @brief State Transition Property for State Machine Class
+ * 
+ */
 struct TransitionProperty
 {
     std::string trigger_event;
@@ -20,21 +35,53 @@ struct TransitionProperty
     std::string to_state;
 };
 
+/**
+ * @brief State Property for State Machine Class
+ * 
+ */
 struct StateProperty
 {
     std::string name;
 };
 
+/**
+ * @brief Boost::Graph type for State Machine Class
+ * 
+ */
 typedef boost::adjacency_list<boost::listS, boost::vecS, boost::bidirectionalS, StateProperty, TransitionProperty> graph_t;
+/**
+ * @brief vertex type for State Machine Class (State)
+ * 
+ */
 typedef graph_t::vertex_descriptor vertex_t;
+/**
+ * @brief edge type for State Machine Class (State Transition)
+ * 
+ */
 typedef graph_t::edge_descriptor edge_t;
 typedef boost::graph_traits<graph_t>::adjacency_iterator adjacency_iterator_t;
 typedef boost::graph_traits<graph_t>::out_edge_iterator out_edge_iterator_t;
 
+/**
+ * @brief Struct for State Infomation
+ * 
+ */
 struct StateInfo
 {
+    /**
+     * @brief Possibe Transition States from the Current State
+     * 
+     */
     const std::vector<std::string> possibe_transition_states;
+    /**
+     * @brief Possibe Transitions from the Current State
+     * 
+     */
     const std::vector<std::string> possibe_transitions;
+    /**
+     * @brief Current State
+     * 
+     */
     const std::string current_state;
     StateInfo(std::string current_state_,
         std::vector<std::string> possibe_transition_states_,

@@ -1,6 +1,22 @@
+/**
+ * @file rostate_machine.cpp
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief ROS Wrapper for the State Machine Library
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 
 #include <rostate_machine/rostate_machine.h>
 
+/**
+ * @brief Construct a new Rostate Machine:: Rostate Machine object
+ * 
+ * @param nh NodeHandle
+ * @param pnh Private NodeHandle
+ */
 RostateMachine::RostateMachine(ros::NodeHandle nh,ros::NodeHandle pnh)
 {
     nh_ = nh;
@@ -10,11 +26,20 @@ RostateMachine::RostateMachine(ros::NodeHandle nh,ros::NodeHandle pnh)
     pnh_.param<std::string>("xml_filepath", xml_filepath_, "");
 }
 
+/**
+ * @brief Destroy the Rostate Machine:: Rostate Machine object
+ * 
+ */
 RostateMachine::~RostateMachine()
 {
 
 }
 
+/**
+ * @brief Callback Function for Trigger Event Topic
+ * 
+ * @param event Event Message for the rostate_machine package.
+ */
 void RostateMachine::eventCallback(const ros::MessageEvent<rostate_machine::Event const>& event)
 {
     rostate_machine::Event msg = *event.getMessage();
@@ -34,6 +59,10 @@ void RostateMachine::eventCallback(const ros::MessageEvent<rostate_machine::Even
     return;
 }
 
+/**
+ * @brief Run State Machine (Enable Transitions)
+ * 
+ */
 void RostateMachine::run()
 {
     state_machine_ptr_ = std::make_shared<StateMachine>(xml_filepath_);
@@ -48,6 +77,10 @@ void RostateMachine::run()
     return;
 }
 
+/**
+ * @brief Publish Current State Topic
+ * 
+ */
 void RostateMachine::publishCurrentState()
 {
     ros::Rate rate(publish_rate_);

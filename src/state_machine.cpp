@@ -1,5 +1,21 @@
+/**
+ * @file state_machine.cpp
+ * @author Masaya Kataoka (ms.kataoka@gmail.com)
+ * @brief State Machine Library using Boost::Graph
+ * @version 0.1
+ * @date 2019-04-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #include <rostate_machine/state_machine.h>
 
+/**
+ * @brief Construct a new State Machine:: State Machine object
+ * 
+ * @param xml_filepath XML filepath for the RostateMachine Definition
+ */
 StateMachine::StateMachine(std::string xml_filepath)
 {
     using namespace boost::property_tree;
@@ -26,10 +42,21 @@ StateMachine::StateMachine(std::string xml_filepath)
     setCurrentState(init_state_name);
 }
 
+/**
+ * @brief Destroy the State Machine:: State Machine object
+ * 
+ */
 StateMachine::~StateMachine()
 {
 }
 
+/**
+ * @brief Function for setting Current State Infomation
+ * 
+ * @param current_state target state
+ * @return true Succeed to set state
+ * @return false Failed to set state
+ */
 bool StateMachine::setCurrentState(std::string current_state)
 {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -46,6 +73,13 @@ bool StateMachine::setCurrentState(std::string current_state)
     return false;
 }
 
+/**
+ * @brief add Transition function for the State Machine
+ * 
+ * @param from_state_name state transition from
+ * @param to_state_name state transition to
+ * @param trigger_event_name trigger event
+ */
 void StateMachine::addTransition(std::string from_state_name, std::string to_state_name, std::string trigger_event_name)
 {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -118,6 +152,11 @@ void StateMachine::addTransition(std::string from_state_name, std::string to_sta
     return;
 }
 
+/**
+ * @brief Function for getting possible transition states
+ * 
+ * @return std::vector<std::string> possible transition states
+ */
 std::vector<std::string> StateMachine::getPossibeTransitionStates()
 {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -131,6 +170,11 @@ std::vector<std::string> StateMachine::getPossibeTransitionStates()
     return ret;
 }
 
+/**
+ * @brief Function for getting possible transition trigger event
+ * 
+ * @return std::vector<std::string> get possible trigger event
+ */
 std::vector<std::string> StateMachine::getPossibeTransitions()
 {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -144,6 +188,13 @@ std::vector<std::string> StateMachine::getPossibeTransitions()
     return ret;
 }
 
+/**
+ * @brief Try transition from trigger event
+ * 
+ * @param trigger_event_name trigger event name
+ * @return true Succeed to transition
+ * @return false Failed to transition
+ */
 bool StateMachine::tryTransition(std::string trigger_event_name)
 {
     std::lock_guard<std::mutex> lock(mtx_);
