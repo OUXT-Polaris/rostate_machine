@@ -47,7 +47,7 @@ string trigger_event_name
 ```
 
 ## Tutorial
-1. Make XML file in order to define state machine  
+### Make XML file in order to define state machine  
 
 ```
 <state_machine>
@@ -73,8 +73,13 @@ states attribute in callback element defines the states in which calls callback.
 states was defined by "," splited string.
 
 when attribute defines when the callback function was called.
+now, rostate_machine supports "always","on_exit","on_entry" values.
+if you set when="always", callback function was called when the current_state topic was recieved and the current_state was matched with states value.
+if you set when="on_exit" or when="on_entry", callback function was called when the current_state topic was recieved and the state was changed.
+when="on_exit", the tagged callback functions was called when the state was changed from the setted states.
+when="on_entry", the tagged callback functions was called when the state was changed to the setted states.
 
-2. Register Callback function to the EventClient class
+### Register Callback function to the EventClient class
 
 add EventClient class to your ROS node and register callback by using EventClient::registerCallback function.
 
