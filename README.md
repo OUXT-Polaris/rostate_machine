@@ -86,3 +86,22 @@ add EventClient class to your ROS node and register callback by using EventClien
 ```
 void EventClient::registerCallback(std::function<boost::optional<rostate_machine::Event>(void)> func,std::string tag)
 ```
+
+### Make Launch files for your state machine
+You can see how to make launch file for your statemachin in rostate_machine/launch/example.lannch
+
+```
+<include file="$(find rostate_machine)/launch/rostate_machine.launch">
+    <arg name="xml_filepath" value="$(find rostate_machine)/data/example_state_machine.xml"/>
+    <arg name="dot_filepath" value="$(find rostate_machine)/data/example_state_machine.dot"/>
+    <arg name="state_machine_name" value="example_state_machine"/>
+</include>
+
+<node pkg="rostate_machine" type="example_event_client_node" name="example_event_client_node" output="log" respawn="false" respawn_delay="0">
+    <param name="target_state_machine_namespace" value="/rostate_machine_node"/>
+</node>
+```
+
+You have to pass xml_filepath,dot_filepath,state_machine_name args to the included launch file. (rostate_machine.launch)
+You have to also set rosparam named (namespace)/target_state_machine_namespace.
+Event client get state_machine_description from (value of (namespace)/target_state_machine_namespace )/xml_filepath
