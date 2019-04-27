@@ -67,6 +67,11 @@ install(TARGETS state_machine rostate_machine_node event_client example_event_cl
   RUNTIME DESTINATION bin
 )
 
+foreach(dir data launch msg)
+  install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)
+
 if (CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   add_rostest_gtest(test-rostate_machine
