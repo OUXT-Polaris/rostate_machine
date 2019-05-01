@@ -101,7 +101,7 @@ struct StateInfo
 class StateMachine
 {
 public:
-    StateMachine(std::string xml_filepath);
+    StateMachine(std::string xml_string);
     ~StateMachine();
     bool tryTransition(std::string trigger_event_name);
     bool setCurrentState(std::string current_state);

@@ -14,13 +14,15 @@
 /**
  * @brief Construct a new State Machine:: State Machine object
  * 
- * @param xml_filepath XML filepath for the RostateMachine Definition
+ * @param xml_string XML string for the RostateMachine Definition
  */
-StateMachine::StateMachine(std::string xml_filepath)
+StateMachine::StateMachine(std::string xml_string)
 {
     using namespace boost::property_tree;
     ptree pt;
-    read_xml(xml_filepath, pt);
+    std::stringstream ss;
+    ss << xml_string;
+    read_xml(ss, pt);
     std::string init_state_name;
     for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
     {
