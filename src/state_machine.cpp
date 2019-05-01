@@ -11,6 +11,8 @@
 
 #include <rostate_machine/state_machine.h>
 
+#include <ros/ros.h>
+
 /**
  * @brief Construct a new State Machine:: State Machine object
  * 
@@ -29,6 +31,10 @@ StateMachine::StateMachine(std::string xml_string)
         if(state_itr.first == "init_state")
         {
             init_state_name = state_itr.second.get<std::string>("<xmlattr>.name");
+        }
+        if(state_itr.first == "state_machine_name")
+        {
+            name_ = state_itr.second.get<std::string>("<xmlattr>.name");
         }
     }
     for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
@@ -50,6 +56,16 @@ StateMachine::StateMachine(std::string xml_string)
  */
 StateMachine::~StateMachine()
 {
+}
+
+/**
+ * @brief get name of the state machine
+ * 
+ * @return std::string name of the state machine
+ */
+std::string StateMachine::getName()
+{
+    return name_;
 }
 
 /**
