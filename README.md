@@ -92,15 +92,17 @@ void EventClient::registerCallback(std::function<boost::optional<rostate_machine
 You can see how to make launch file for your statemachin in rostate_machine/launch/example.lannch
 
 ```
-<include file="$(find rostate_machine)/launch/rostate_machine.launch">
-    <arg name="xml_filepath" value="$(find rostate_machine)/data/example_state_machine.xml"/>
-    <arg name="dot_filepath" value="$(find rostate_machine)/data/example_state_machine.dot"/>
-    <arg name="state_machine_name" value="example_state_machine"/>
-</include>
+<?xml version="1.0"?>
+<launch>
+    <param name="example_state_machine_node/description" textfile="$(find rostate_machine)/data/example_state_machine.xml"/>
 
-<node pkg="rostate_machine" type="example_event_client_node" name="example_event_client_node" output="log" respawn="false" respawn_delay="0">
-    <param name="target_state_machine_namespace" value="/rostate_machine_node"/>
-</node>
+    <node pkg="rostate_machine" type="rostate_machine_node" name="example_state_machine_node" output="screen" respawn="true">
+        <param name="dot_filepath" value="$(find rostate_machine)/data/example_state_machine.dot"/>
+    </node>
+
+    <node pkg="rostate_machine" type="example_event_client_node" name="example_event_client_node" output="log" respawn="false" respawn_delay="0">
+    </node>
+</launch>
 ```
 
 You have to pass xml_filepath,dot_filepath,state_machine_name args to the included launch file. (rostate_machine.launch)

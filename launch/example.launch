@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <launch>
-    <param name="rostate_machine_node/description" textfile="$(find rostate_machine)/data/example_state_machine.xml"/>
+    <param name="example_state_machine_node/description" textfile="$(find rostate_machine)/data/example_state_machine.xml"/>
 
-    <include file="$(find rostate_machine)/launch/rostate_machine.launch">
-        <arg name="dot_filepath" value="$(find rostate_machine)/data/example_state_machine.dot"/>
-    </include>
+    <node pkg="rostate_machine" type="rostate_machine_node" name="example_state_machine_node" output="screen" respawn="true">
+        <param name="dot_filepath" value="$(find rostate_machine)/data/example_state_machine.dot"/>
+    </node>
 
-    <node pkg="rostate_machine" type="example_event_client_node" name="example_event_client_node" output="log" respawn="false" respawn_delay="0">
-        <param name="target_state_machine_namespace" value="rostate_machine_node/description"/>
+    <node pkg="rostate_machine" type="example_event_client_node" name="example_event_client_node" output="screen" respawn="false" respawn_delay="0">
     </node>
 </launch>

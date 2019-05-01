@@ -13,20 +13,19 @@
 
 namespace rostate_machine
 {
-    EventClient::EventClient(ros::NodeHandle nh,ros::NodeHandle pnh)
+    EventClient::EventClient(ros::NodeHandle nh,ros::NodeHandle pnh,std::string client_namespace) : client_namespace(client_namespace)
     {
         nh_ = nh;
         pnh_ = pnh;
         state_buf_ = boost::circular_buffer<rostate_machine::State>(2);
-        pnh_.param<std::string>("target_state_machine_namespace", target_state_machine_namespace_, "");
-        pnh_.param<std::string>(target_state_machine_namespace_+"/xml_filepath", xml_filepath_, "");
+        nh_.param<std::string>(client_namespace+"/description", description_, "");
     }
 
     void EventClient::run()
     {
         loadXml();
-        trigger_event_pub_ = nh_.advertise<rostate_machine::Event>(target_state_machine_namespace_+"/trigger_event",1);
-        current_state_sub_ = nh_.subscribe(target_state_machine_namespace_+"/current_state",1,&EventClient::stateCallback,this);
+        trigger_event_pub_ = nh_.advertise<rostate_machine::Event>(client_namespace+"/trigger_event",1);
+        current_state_sub_ = nh_.subscribe(client_namespace+"/current_state",1,&EventClient::stateCallback,this);
     }
 
     EventClient::~EventClient()
@@ -101,7 +100,9 @@ namespace rostate_machine
     {
         using namespace boost::property_tree;
         ptree pt;
-        xml_parser::read_xml(xml_filepath_, pt);
+        std::stringstream ss;
+        ss << description_;
+        xml_parser::read_xml(ss, pt);
         for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
         {
             if(state_itr.first == "callback")
