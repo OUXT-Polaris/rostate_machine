@@ -19,11 +19,23 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 
+// Headers in STL
+#include <fstream> 
+#include <iostream>
+
 // Declare Test
-TEST(TestSuite, testCase2)
+TEST(TestSuite, testCase1)
 {
     std::string xml_filepath = ros::package::getPath("rostate_machine") + std::string("/test/data/test_state_machine.xml");
-    StateMachine sm(xml_filepath);
+    std::ifstream ifs(xml_filepath);
+    std::string description;
+    std::string line;
+
+    while (getline(ifs, line))
+    {
+        description += line + "\n";
+    }
+    StateMachine sm(description);
     EXPECT_EQ(sm.getCurrentState(),"remote_operated");
     EXPECT_EQ(sm.tryTransition("test"),false);
     EXPECT_EQ(sm.getCurrentState(),"remote_operated");
