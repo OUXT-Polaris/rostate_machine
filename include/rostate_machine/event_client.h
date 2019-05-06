@@ -56,6 +56,8 @@ namespace rostate_machine
         void registerCallback(std::function<boost::optional<rostate_machine::Event>(void)> func,std::string tag);
         void run();
         const std::string client_namespace;
+        boost::optional<rostate_machine::State> getCurrentState();
+        boost::optional<rostate_machine::State> getPreviousState();
     private:
         ros::NodeHandle nh_;
         ros::NodeHandle pnh_;

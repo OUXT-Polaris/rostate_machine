@@ -33,6 +33,34 @@ namespace rostate_machine
 
     }
 
+    boost::optional<rostate_machine::State> EventClient::getPreviousState()
+    {
+        if(state_buf_.size() == 2)
+        {
+            return state_buf_[0];
+        }
+        else
+        {
+            return boost::none;
+        }
+    }
+
+    boost::optional<rostate_machine::State> EventClient::getCurrentState()
+    {
+        if(state_buf_.size() == 2)
+        {
+            return state_buf_[1];
+        }
+        else if(state_buf_.size() == 1)
+        {
+            return state_buf_[0];
+        }
+        else
+        {
+            return boost::none;
+        }
+    }
+
     void EventClient::stateCallback(const rostate_machine::State::ConstPtr msg)
     {
         state_buf_.push_back(*msg);
