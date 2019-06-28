@@ -101,7 +101,7 @@ struct StateInfo
 class StateMachine
 {
 public:
-    StateMachine(std::string xml_filepath);
+    StateMachine(std::string xml_string);
     ~StateMachine();
     bool tryTransition(std::string trigger_event_name);
     bool setCurrentState(std::string current_state);
@@ -111,10 +111,12 @@ public:
     StateInfo getStateInfo();
     void drawStateMachine(std::string dot_filename);
     std::string getDotString();
+    std::string getName();
 private:
     void addTransition(std::string from_state_name, std::string to_state_name, std::string trigger_event_name);
     std::mutex mtx_;
     graph_t state_graph_;
     vertex_t current_state_;
+    std::string name_;
 };
 #endif //StateMachine_H_INCLUDED

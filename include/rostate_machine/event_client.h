@@ -51,10 +51,13 @@ namespace rostate_machine
     class EventClient
     {
     public:
-        EventClient(ros::NodeHandle nh,ros::NodeHandle pnh);
+        EventClient(ros::NodeHandle nh,ros::NodeHandle pnh,std::string client_namespace);
         ~EventClient();
         void registerCallback(std::function<boost::optional<rostate_machine::Event>(void)> func,std::string tag);
         void run();
+        const std::string client_namespace;
+        boost::optional<rostate_machine::State> getCurrentState();
+        boost::optional<rostate_machine::State> getPreviousState();
     private:
         ros::NodeHandle nh_;
         ros::NodeHandle pnh_;
@@ -62,8 +65,7 @@ namespace rostate_machine
         ros::Subscriber current_state_sub_;
         void stateCallback(const rostate_machine::State::ConstPtr msg);
         boost::circular_buffer<rostate_machine::State> state_buf_;
-        std::string target_state_machine_namespace_;
-        std::string xml_filepath_;
+        std::string description_;
         void loadXml();
         std::vector<std::string> onTransition();
         std::vector<std::string> split(const std::string &s, char delim);

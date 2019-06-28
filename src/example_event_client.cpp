@@ -18,7 +18,7 @@
  * @param nh Node Handler
  * @param pnh Private Node Handle
  */
-ExampleEventClient::ExampleEventClient(ros::NodeHandle nh,ros::NodeHandle pnh) : client_(nh,pnh)
+ExampleEventClient::ExampleEventClient(ros::NodeHandle nh,ros::NodeHandle pnh) : client_(nh,pnh,"example_state_machine_node")
 {
     nh_ = nh;
     pnh_ = pnh;
