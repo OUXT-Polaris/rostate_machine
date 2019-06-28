@@ -11,22 +11,30 @@
 
 #include <rostate_machine/state_machine.h>
 
+#include <ros/ros.h>
+
 /**
  * @brief Construct a new State Machine:: State Machine object
  * 
- * @param xml_filepath XML filepath for the RostateMachine Definition
+ * @param xml_string XML string for the RostateMachine Definition
  */
-StateMachine::StateMachine(std::string xml_filepath)
+StateMachine::StateMachine(std::string xml_string)
 {
     using namespace boost::property_tree;
     ptree pt;
-    read_xml(xml_filepath, pt);
+    std::stringstream ss;
+    ss << xml_string;
+    read_xml(ss, pt);
     std::string init_state_name;
     for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
     {
         if(state_itr.first == "init_state")
         {
             init_state_name = state_itr.second.get<std::string>("<xmlattr>.name");
+        }
+        if(state_itr.first == "state_machine_name")
+        {
+            name_ = state_itr.second.get<std::string>("<xmlattr>.name");
         }
     }
     for (const ptree::value_type& state_itr : pt.get_child("state_machine"))
@@ -48,6 +56,16 @@ StateMachine::StateMachine(std::string xml_filepath)
  */
 StateMachine::~StateMachine()
 {
+}
+
+/**
+ * @brief get name of the state machine
+ * 
+ * @return std::string name of the state machine
+ */
+std::string StateMachine::getName()
+{
+    return name_;
 }
 
 /**

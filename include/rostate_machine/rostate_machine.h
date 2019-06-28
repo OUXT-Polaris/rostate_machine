@@ -19,6 +19,7 @@
 
 //headers in STL
 #include <memory>
+#include <sstream>
 
 //headers in ROS
 #include <ros/ros.h>
@@ -48,7 +49,7 @@ private:
     ros::Publisher current_state_pub_;
     ros::Subscriber trigger_event_sub_;
     std::string state_machine_name_;
-    std::string xml_filepath_;
+    std::string description_;
     std::string dot_filepath_;
     double publish_rate_;
 };

@@ -1,5 +1,6 @@
 <state_machine>
     <init_state name="remote_operated"/>
+    <state_machine_name name="example_state_machine"/>
 
     <callback tag="become_autonomos" when="on_entry" states="autonomous"/>
     <callback tag="stop_motor" when="on_exit" states="autonomous,remote_operated"/>
