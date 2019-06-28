@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="xml_filepath"/>
     <arg name="state_machine_name"/>
     <arg name="dot_filepath"/>
 
+    <param name="$(arg state_machine_name)_node/description" textfile="$(arg xml_filepath)"/>
+
     <node pkg="rostate_machine" type="rostate_machine_node" name="$(arg state_machine_name)_node" output="screen" respawn="true">
-        <param name="xml_filepath" value="$(arg xml_filepath)"/>
         <param name="dot_filepath" value="$(arg dot_filepath)"/>
     </node>
 </launch>
