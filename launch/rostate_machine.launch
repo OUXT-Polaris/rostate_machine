@@ -2,6 +2,7 @@
 <launch>
     <arg name="state_machine_name"/>
     <arg name="dot_filepath"/>
+    <arg name="xml_filepath"/>
 
     <node pkg="rostate_machine" type="rostate_machine_node" name="$(arg state_machine_name)_node" output="screen" respawn="true">
         <param name="xml_filepath" value="$(arg xml_filepath)"/>
