@@ -35,6 +35,7 @@ namespace rostate_machine
 
     void EventClient::publishEvent(rostate_machine::Event event)
     {
+        ROS_ASSERT(eventKeyFound(event));
         trigger_event_pub_.publish(event);
     }
 
@@ -122,6 +123,7 @@ namespace rostate_machine
                 boost::optional<rostate_machine::Event> ret = func();
                 if(ret)
                 {
+                    ROS_ASSERT(eventKeyFound(*ret));
                     trigger_event_pub_.publish(*ret);
                 }
             }
@@ -167,8 +169,26 @@ namespace rostate_machine
                     ROS_WARN_STREAM("unspoorted when attribute!");
                 }
             }
+            if(state_itr.first == "transition")
+            {
+                std::string trigger_event_name = state_itr.second.get<std::string>("<xmlattr>.name");
+                available_events_.push_back(trigger_event_name);
+            }
         }
         return;
+    }
+
+    bool EventClient::eventKeyFound(rostate_machine::Event event)
+    {
+        bool found = false;
+        for(auto itr = available_events_.begin(); itr != available_events_.end(); itr++)
+        {
+            if(*itr == event.trigger_event_name)
+            {
+                found = true;
+            }
+        }
+        return found;
     }
 
     void EventClient::registerCallback(std::function<boost::optional<rostate_machine::Event>(void)> func,std::string tag)
