@@ -33,6 +33,11 @@ namespace rostate_machine
 
     }
 
+    void EventClient::publishEvent(rostate_machine::Event event)
+    {
+        trigger_event_pub_.publish(event);
+    }
+
     boost::optional<rostate_machine::State> EventClient::getPreviousState()
     {
         if(state_buf_.size() == 2)
