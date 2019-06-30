@@ -60,8 +60,5 @@ boost::optional<rostate_machine::Event> ExampleEventClient::checkMotor()
  */
 boost::optional<rostate_machine::Event> ExampleEventClient::stopMotor()
 {
-    rostate_machine::Event ret;
-    ret.header.stamp = ros::Time::now();
-    ret.trigger_event_name = "stop_motor";
-    return ret;
+    return boost::none;
 }

@@ -54,6 +54,7 @@ namespace rostate_machine
         EventClient(ros::NodeHandle nh,ros::NodeHandle pnh,std::string client_namespace);
         ~EventClient();
         void registerCallback(std::function<boost::optional<rostate_machine::Event>(void)> func,std::string tag);
+        void publishEvent(rostate_machine::Event event);
         void run();
         const std::string client_namespace;
         boost::optional<rostate_machine::State> getCurrentState();
@@ -71,6 +72,8 @@ namespace rostate_machine
         std::vector<std::string> split(const std::string &s, char delim);
         std::map<std::string, std::vector<std::function<boost::optional<rostate_machine::Event>(void)> > > tagged_functions_;
         std::vector<TagInfo> tag_info_;
+        std::vector<std::string> available_events_;
+        bool eventKeyFound(rostate_machine::Event event);
     };
 }
 
