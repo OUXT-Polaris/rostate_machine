@@ -14,11 +14,12 @@ struct NodeWriter
     {
         if(g[v].name == current_state)
         {
-            out << " [color=blue label=\"" << g[v].name << "\"]" << std::endl;
+            out << " [color=blue,fontsize=14,shape=note,label=\"" << g[v].name << "\"]" << std::endl;
+            out << "[fontcolor=blue]" << std::endl;
         }
         else
         {
-            out << " [color=black label=\"" << g[v].name << "\"]" << std::endl;
+            out << " [color=black,fontsize=14,shape=note,label=\"" << g[v].name << "\"]" << std::endl;
         }
     };
     Map g;
@@ -32,8 +33,11 @@ struct EdgeWriter
     template <class Edge>
     void operator()(std::ostream& out, Edge e) 
     {
-        out << " [color=black]" << std::endl;
-        //out << " [label=\"" << e  <<":" << g[e].miles << "\"]" << std::endl;
+        out << "[color=gray]" << std::endl;
+        out << "[fontsize=10]" << std::endl;
+        out << "[style=solid]" << std::endl;
+        out << "[fontcolor=black]" << std::endl;
+        out << "[label=\"" << g[e].trigger_event << "\"]" << std::endl;
     };
     Map g;
 };
@@ -42,10 +46,7 @@ struct GraphWriter
 {
     void operator()(std::ostream& out) const 
     {
-        out << "graph [bgcolor=lightgrey]" << std::endl;
-        //out << "node [shape=box color=blue]" << std::endl;
-
-        out << "edge [color=red]" << std::endl;
+        out << "graph [bgcolor=white]" << std::endl;
     }
 };
 

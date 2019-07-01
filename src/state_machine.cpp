@@ -284,8 +284,8 @@ std::string StateMachine::getDotString()
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::stringstream sstream;
-    boost::write_graphviz(sstream, state_graph_, boost::make_label_writer(get(&StateProperty::name, state_graph_)),
-        boost::make_label_writer(get(&TransitionProperty::trigger_event, state_graph_)));
+    boost::write_graphviz(sstream,state_graph_,node_writer_(state_graph_,getCurrentState()),
+        edge_writer_(state_graph_),graph_writer_);
     return sstream.str();
 }
 

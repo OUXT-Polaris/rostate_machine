@@ -1,0 +1,1 @@
+dot -T pdf example_state_machine.dot -o example_state_machine.pdf
