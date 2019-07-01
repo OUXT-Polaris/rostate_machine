@@ -272,7 +272,6 @@ StateInfo StateMachine::getStateInfo()
  */
 std::string StateMachine::getCurrentState()
 {
-    std::lock_guard<std::mutex> lock(mtx_);
     return state_graph_[current_state_].name;
 }
 
@@ -299,10 +298,7 @@ void StateMachine::drawStateMachine(std::string dot_filename)
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::ofstream f(dot_filename.c_str());
-    /*
-    boost::write_graphviz(f, state_graph_, boost::make_label_writer(get(&StateProperty::name, state_graph_)),
-        boost::make_label_writer(get(&TransitionProperty::trigger_event, state_graph_)));
-    */
-    boost::write_graphviz(f,state_graph_,node_writer_(state_graph_),edge_writer_(state_graph_),graph_writer_);
+    boost::write_graphviz(f,state_graph_,node_writer_(state_graph_,getCurrentState()),
+        edge_writer_(state_graph_),graph_writer_);
     return;
 }

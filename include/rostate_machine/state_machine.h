@@ -122,7 +122,7 @@ private:
     vertex_t current_state_;
     std::string name_;
     template <typename Map>
-    NodeWriter<Map> node_writer_(Map& map){ return NodeWriter<Map>(map); }
+    NodeWriter<Map> node_writer_(Map& map,std::string current_state){ return NodeWriter<Map>(map,current_state); }
     template <typename Map>
     EdgeWriter<Map> edge_writer_(Map& map){ return EdgeWriter<Map>(map); }
     GraphWriter graph_writer_;

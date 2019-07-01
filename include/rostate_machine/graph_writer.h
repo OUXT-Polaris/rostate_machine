@@ -7,24 +7,22 @@ using std::map;
 template <typename Map>
 struct NodeWriter
 {
-    NodeWriter(Map& g_) : g (g_) {};
+    NodeWriter(Map& g_,std::string current_state_) 
+        : g (g_), current_state(current_state_) {};
     template <class Vertex>
     void operator()(std::ostream& out, Vertex v)
     {
-        /*
-        if(current_state == g[v].name)
+        if(g[v].name == current_state)
         {
-            out << " [label=\"" << g[v].name << "\"]" << std::endl;
+            out << " [color=blue label=\"" << g[v].name << "\"]" << std::endl;
         }
         else
         {
-            out << " [label=\"" << g[v].name << "\"]" << std::endl;
+            out << " [color=black label=\"" << g[v].name << "\"]" << std::endl;
         }
-        */
-        out << " [label=\"" << g[v].name << "\"]" << std::endl;
     };
     Map g;
-    //std::string current_state;
+    std::string current_state;
 };
 
 template <typename Map>
