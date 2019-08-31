@@ -28,6 +28,7 @@ ExampleEventClient::ExampleEventClient(ros::NodeHandle nh,ros::NodeHandle pnh) :
      */
     client_.registerCallback(std::bind(&ExampleEventClient::stopMotor, this),"stop_motor");
     client_.registerCallback(std::bind(&ExampleEventClient::checkMotor, this),"check_motor");
+    client_.registerCallback(std::bind(&ExampleEventClient::checkRecovery, this),"check_recovery");
     /**
      * @brief start client
      * 
@@ -47,10 +48,26 @@ ExampleEventClient::~ExampleEventClient()
  */
 boost::optional<rostate_machine::Event> ExampleEventClient::checkMotor()
 {
-    rostate_machine::Event ret;
-    ret.header.stamp = ros::Time::now();
-    ret.trigger_event_name = "motor_disconnected";
-    return ret;
+    if(client_.getCurrentStateDuration().toSec()>1.0)
+    {
+        rostate_machine::Event ret;
+        ret.header.stamp = ros::Time::now();
+        ret.trigger_event_name = "motor_disconnected";
+        return ret;
+    }
+    return boost::none;
+}
+
+boost::optional<rostate_machine::Event> ExampleEventClient::checkRecovery()
+{
+    if(client_.getCurrentStateDuration().toSec()>2.0)
+    {
+        rostate_machine::Event ret;
+        ret.header.stamp = ros::Time::now();
+        ret.trigger_event_name = "recovery";
+        return ret;
+    }
+    return boost::none;
 }
 
 /**

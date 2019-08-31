@@ -26,11 +26,18 @@ namespace rostate_machine
         loadXml();
         trigger_event_pub_ = nh_.advertise<rostate_machine::Event>(client_namespace+"/trigger_event",1);
         current_state_sub_ = nh_.subscribe(client_namespace+"/current_state",1,&EventClient::stateCallback,this);
+        return;
     }
 
     EventClient::~EventClient()
     {
 
+    }
+
+    ros::Duration EventClient::getCurrentStateDuration()
+    {
+        ros::Duration duration = ros::Time::now() - state_changed_timestamp_;
+        return duration;
     }
 
     void EventClient::publishEvent(rostate_machine::Event event)
@@ -73,6 +80,7 @@ namespace rostate_machine
         std::vector<std::string> active_tags;
         if(state_buf_.size() == 1)
         {
+            state_changed_timestamp_ = msg->header.stamp;
             for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
             {
                 for(auto state_itr = tag_itr->states.begin(); state_itr != tag_itr->states.end(); state_itr++)
@@ -98,6 +106,7 @@ namespace rostate_machine
             }
             if(state_buf_[0].current_state != state_buf_[1].current_state)
             {
+                state_changed_timestamp_ = msg->header.stamp;
                 for(auto tag_itr = tag_info_.begin(); tag_itr != tag_info_.end(); tag_itr++)
                 {
                     for(auto state_itr = tag_itr->states.begin(); state_itr != tag_itr->states.end(); state_itr++)

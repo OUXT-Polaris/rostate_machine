@@ -59,6 +59,7 @@ namespace rostate_machine
         const std::string client_namespace;
         boost::optional<rostate_machine::State> getCurrentState();
         boost::optional<rostate_machine::State> getPreviousState();
+        ros::Duration getCurrentStateDuration();
     private:
         ros::NodeHandle nh_;
         ros::NodeHandle pnh_;
@@ -74,6 +75,7 @@ namespace rostate_machine
         std::vector<TagInfo> tag_info_;
         std::vector<std::string> available_events_;
         bool eventKeyFound(rostate_machine::Event event);
+        ros::Time state_changed_timestamp_;
     };
 }
 

@@ -28,6 +28,7 @@ public:
     ExampleEventClient(ros::NodeHandle nh,ros::NodeHandle pnh);
     ~ExampleEventClient();
 private:
+    boost::optional<rostate_machine::Event> checkRecovery();
     boost::optional<rostate_machine::Event> checkMotor();
     boost::optional<rostate_machine::Event> stopMotor();
     ros::NodeHandle nh_;
