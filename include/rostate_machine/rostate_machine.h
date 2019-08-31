@@ -28,6 +28,7 @@
 //headers in Boost
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+#include <boost/circular_buffer.hpp>
 
 /**
  * @brief ROS wrapper of the State Machine Class
@@ -43,6 +44,7 @@ private:
     void publishCurrentState();
     void eventCallback(const ros::MessageEvent<rostate_machine::Event const>& event);
     std::shared_ptr<StateMachine> state_machine_ptr_;
+    boost::circular_buffer<std::string> state_buf_;
     ros::NodeHandle nh_;
     ros::NodeHandle pnh_;
     ros::Publisher dot_string_pub_;

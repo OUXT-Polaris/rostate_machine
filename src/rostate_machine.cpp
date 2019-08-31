@@ -21,10 +21,9 @@ RostateMachine::RostateMachine(ros::NodeHandle nh,ros::NodeHandle pnh)
 {
     nh_ = nh;
     pnh_ = pnh;
-    //pnh_.param<std::string>("state_machine_name", state_machine_name_, "");
     pnh_.param<std::string>("dot_filepath", dot_filepath_, "");
-    //pnh_.param<std::string>("xml_filepath", xml_filepath_, "");state_machine_name_
     pnh_.param<std::string>("description", description_, "");
+    state_buf_ = boost::circular_buffer<std::string>(2);
 }
 
 /**
@@ -67,11 +66,9 @@ void RostateMachine::eventCallback(const ros::MessageEvent<rostate_machine::Even
 void RostateMachine::run()
 {
     state_machine_ptr_ = std::make_shared<StateMachine>(description_);
-    //state_machine_ptr_->drawStateMachine(dot_filepath_);
     nh_.param<double>(ros::this_node::getName()+"/publish_rate", publish_rate_, 10);
-    dot_string_pub_ = nh_.advertise<std_msgs::String>(ros::this_node::getName()+"/dot_string",1);
+    dot_string_pub_ = nh_.advertise<std_msgs::String>(ros::this_node::getName()+"/dot_string",1,true);
     current_state_pub_ = nh_.advertise<rostate_machine::State>(ros::this_node::getName()+"/"+state_machine_name_+"/current_state",1);
-
     boost::thread publish_thread(boost::bind(&RostateMachine::publishCurrentState, this));
     trigger_event_sub_ = nh_.subscribe(ros::this_node::getName()+"/"+state_machine_name_+"/trigger_event", 10, &RostateMachine::eventCallback,this);
     return;
@@ -86,9 +83,6 @@ void RostateMachine::publishCurrentState()
     ros::Rate rate(publish_rate_);
     while(ros::ok())
     {
-        std_msgs::String dot_string_msg;
-        //dot_string_msg.data = state_machine_ptr_->getDotString();
-        //dot_string_pub_.publish(dot_string_msg);
         rostate_machine::State state_msg;
         StateInfo info = state_machine_ptr_->getStateInfo();
         state_msg.current_state = info.current_state;
@@ -96,6 +90,14 @@ void RostateMachine::publishCurrentState()
         state_msg.possible_transition_states = info.possibe_transition_states;
         state_msg.header.stamp = ros::Time::now();
         current_state_pub_.publish(state_msg);
+        
+        std_msgs::String dot_string_msg;
+        state_buf_.push_back(state_msg.current_state);
+        if(state_buf_.size() == 1 || state_buf_[0] != state_buf_[1])
+        {
+            dot_string_msg.data = state_machine_ptr_->getDotString();
+            dot_string_pub_.publish(dot_string_msg);
+        }
         rate.sleep();
     }
     return;
