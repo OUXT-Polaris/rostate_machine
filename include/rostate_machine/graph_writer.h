@@ -14,12 +14,12 @@ struct NodeWriter
     {
         if(g[v].name == current_state)
         {
-            out << " [color=blue,fontsize=14,shape=note,label=\"" << g[v].name << "\"]" << std::endl;
+            out << " [color=blue,fontsize=12,shape=ellipse,label=\"" << g[v].name << "\"]" << std::endl;
             out << "[fontcolor=blue]" << std::endl;
         }
         else
         {
-            out << " [color=black,fontsize=14,shape=note,label=\"" << g[v].name << "\"]" << std::endl;
+            out << " [color=black,fontsize=12,shape=ellipse,label=\"" << g[v].name << "\"]" << std::endl;
         }
     };
     Map g;
@@ -34,7 +34,7 @@ struct EdgeWriter
     void operator()(std::ostream& out, Edge e) 
     {
         out << "[color=gray]" << std::endl;
-        out << "[fontsize=10]" << std::endl;
+        out << "[fontsize=12]" << std::endl;
         out << "[style=solid]" << std::endl;
         out << "[fontcolor=black]" << std::endl;
         out << "[label=\"" << g[e].trigger_event << "\"]" << std::endl;
