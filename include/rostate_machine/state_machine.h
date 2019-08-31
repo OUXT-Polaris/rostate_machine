@@ -24,6 +24,9 @@
 //headers in STL
 #include <mutex>
 
+//headers in this package
+#include <rostate_machine/graph_writer.h>
+
 /**
  * @brief State Transition Property for State Machine Class
  * 
@@ -118,5 +121,10 @@ private:
     graph_t state_graph_;
     vertex_t current_state_;
     std::string name_;
+    template <typename Map>
+    NodeWriter<Map> node_writer_(Map& map,std::string current_state){ return NodeWriter<Map>(map,current_state); }
+    template <typename Map>
+    EdgeWriter<Map> edge_writer_(Map& map){ return EdgeWriter<Map>(map); }
+    GraphWriter graph_writer_;
 };
 #endif //StateMachine_H_INCLUDED

@@ -45,7 +45,7 @@ private:
     std::shared_ptr<StateMachine> state_machine_ptr_;
     ros::NodeHandle nh_;
     ros::NodeHandle pnh_;
-    //ros::Publisher dot_string_pub_;
+    ros::Publisher dot_string_pub_;
     ros::Publisher current_state_pub_;
     ros::Subscriber trigger_event_sub_;
     std::string state_machine_name_;

@@ -272,7 +272,6 @@ StateInfo StateMachine::getStateInfo()
  */
 std::string StateMachine::getCurrentState()
 {
-    std::lock_guard<std::mutex> lock(mtx_);
     return state_graph_[current_state_].name;
 }
 
@@ -284,11 +283,10 @@ std::string StateMachine::getCurrentState()
 std::string StateMachine::getDotString()
 {
     std::lock_guard<std::mutex> lock(mtx_);
-    std::string dot_string;
-    std::stringstream sstream(dot_string);
-    boost::write_graphviz(sstream, state_graph_, boost::make_label_writer(get(&StateProperty::name, state_graph_)),
-        boost::make_label_writer(get(&TransitionProperty::trigger_event, state_graph_)));
-    return dot_string;
+    std::stringstream sstream;
+    boost::write_graphviz(sstream,state_graph_,node_writer_(state_graph_,getCurrentState()),
+        edge_writer_(state_graph_),graph_writer_);
+    return sstream.str();
 }
 
 /**
@@ -300,7 +298,7 @@ void StateMachine::drawStateMachine(std::string dot_filename)
 {
     std::lock_guard<std::mutex> lock(mtx_);
     std::ofstream f(dot_filename.c_str());
-    boost::write_graphviz(f, state_graph_, boost::make_label_writer(get(&StateProperty::name, state_graph_)),
-        boost::make_label_writer(get(&TransitionProperty::trigger_event, state_graph_)));
+    boost::write_graphviz(f,state_graph_,node_writer_(state_graph_,getCurrentState()),
+        edge_writer_(state_graph_),graph_writer_);
     return;
 }
