@@ -60,6 +60,11 @@ namespace rostate_machine
         boost::optional<rostate_machine::State> getCurrentState();
         boost::optional<rostate_machine::State> getPreviousState();
         ros::Duration getCurrentStateDuration();
+        void setEvent(rostate_machine::Event event)
+        {
+            trigger_event_pub_.publish(event);
+            return;
+        };
     private:
         ros::NodeHandle nh_;
         ros::NodeHandle pnh_;
